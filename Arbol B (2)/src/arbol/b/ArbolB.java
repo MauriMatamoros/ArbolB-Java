@@ -35,10 +35,9 @@ public class ArbolB {
             } else if (opcion == 2) {
                 int option = operaciones();
                 if (option == 1) {
-                    System.out.println("Ingrese numero a ingresar: ");
-                    int value = input.nextInt();
-                    Arbol.add(value);
-                    System.out.println(Arbol.toString());
+                    for (int i = 1; i < 100; i++) {
+                        Arbol.insert(Arbol, i);
+                    }
                 } else {
 
                 }
@@ -83,14 +82,19 @@ public class ArbolB {
                                     temporary.add(temp);
                                     System.out.println("entro");
                                 }
+                                System.out.println("entro");
                                 Arbol = temporary.get(0);
+                                System.out.println("entro");
                                 System.out.println(Arbol.toString());
                             } catch (Exception e) {
+                                e.printStackTrace();
+                                System.out.println("Error");
                             } finally {
                                 entrada.close();
                                 objeto.close();
                             }
                         } catch (Exception e) {
+                            System.out.println("Error al abrir archivos");
                         }
                     } else {
                         System.out.println("No existe ese archivo");

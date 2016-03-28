@@ -18,6 +18,7 @@ public class Node {
     private Node father = null;
     private ArrayList<Node> children = new ArrayList();
     private int level;
+    boolean promover = false;
 
     public Node() {
     }
@@ -31,30 +32,54 @@ public class Node {
         this.level = this.father.getLevel() + 1;
     }
 
-    public void addValue(int k) {
-        if (children.isEmpty()) {
-            this.keys.add(k);
-            Collections.sort(this.keys);
-            if (this.keys.size() == 3) {
-                this.promover(k);
+    public void addValue(int k, boolean promover) {
+        if (!promover) {
+            if (this.children.isEmpty()) {
+                keys.add(k);
+                Collections.sort(keys);
+                if (keys.size() > 2) {
+                    promover();
+                }
+            } else {
+                for (int i = 0; i < keys.size(); ++i) {
+                    if (k < keys.get(0)) {
+                        children.get(0).addValue(k, false);
+                        break;
+                    }
+                    if (k > keys.get(keys.size() - 1)) {
+
+                        children.get(children.size() - 1).addValue(k, false);
+                        break;
+                    }
+                    if (k > keys.get(i) && k < keys.get(i + 1)) {
+
+                        children.get(i + 1).addValue(k, false);
+                        break;
+                    }
+                }
             }
-        } else if (this.keys.size() < 3) {
-            if (k < this.keys.get(0)) {
-                this.children.get(0).addValue(k);
-            } else if (k > this.keys.get(this.keys.size() - 1)) {
-                this.children.get(1).addValue(k);
+
+        } else {
+
+            keys.add(k);
+
+            Collections.sort(keys);
+            if (keys.size() > 2) {
+                promover();
             }
         }
     }
 
-    public void promover(int k) {
+    public void promover() {
         if (this.father == null) {
             this.father = new Node(1);
-            this.keys.add(k);
+            this.father.setChild(this);
+
         }
-        int middle = this.keys.get(1);
-        this.keys.remove(1);
-        this.Split(middle);
+        int promoted = keys.get(1);
+        this.father.addValue(promoted, true);
+        keys.remove(2);
+        Split(promoted);
     }
 
     public void deleteValue(int k) {
@@ -62,29 +87,29 @@ public class Node {
     }
 
     public void Split(int k) {
-        Node leftNode = new Node(this);
-        Node RightNode = new Node(this);
-        if (!this.keys.isEmpty()) {
-            
-            leftNode.keys.add(this.keys.get(0));
-            this.keys.remove(0);
-            this.father.setChild(leftNode);
-            RightNode.keys.add(this.keys.get(1));
-            this.father.setChild(RightNode);
-            this.keys.clear();
-            this.keys.add(k);  
-            
-
-            leftNode.keys.add(this.keys.get(0));
-            this.setChild(leftNode);
-            RightNode.keys.add(this.keys.get(1));
-            this.setChild(RightNode);
-            this.keys.remove(0);
-            this.keys.clear();
-            this.keys.add(k);
-            //this.father.keys.add(k);
-
+        Node temp = new Node(father);
+        for (int i = 2; i > 0; --i) {
+            if (keys.get(i - 1) >= k) {
+                temp.addValue(keys.get(i-1),false);
+                keys.remove(keys.size()-1);
+            }
         }
+        if (!this.children.isEmpty()) {
+            int tempchildsize = children.size() + 1;
+            if (tempchildsize % 2 == 0) {
+                for (int i = tempchildsize - 1; i > (tempchildsize) / 2; --i) {
+                    temp.setChild(children.get(i - 1));
+                    children.remove(children.size()-1);
+                }
+            } else {
+                for (int i = tempchildsize - 1; i > (tempchildsize - 1) / 2; --i) {
+                    temp.setChild(children.get(i - 1));
+                    children.remove(children.size()-1);
+                }
+            }
+        }
+        father.setChild(temp);
+
     }
 
     public void setChild(Node n) {
@@ -137,6 +162,14 @@ public class Node {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+    
+    public void orderChildren(){
+        if (this.children.get(0).getKeys().get(0) >  this.children.get(1).getKeys().get(0) &&
+                this.children.get(0).getKeys().get(0) > this.children.get(2).getKeys().get(0)) {
+            
+            
+        }
     }
 
     @Override

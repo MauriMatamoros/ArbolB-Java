@@ -11,11 +11,12 @@ import java.io.Serializable;
  *
  * @author mauricio
  */
-public class Btree implements Serializable{
-        private static final long serialVersionUID = 666L;
-        private int order;
-        private int height;
-        private Node root;
+public class Btree implements Serializable {
+
+    private static final long serialVersionUID = 666L;
+    private int order;
+    private int height;
+    private Node root;
 
     public Btree(int order) {
         this.order = order;
@@ -42,27 +43,26 @@ public class Btree implements Serializable{
     public int getHeight() {
         return height;
     }
-    
-    public void add(int k){
-        this.root.addValue(k);
+
+    public void add(int k) {
+
+	root.addValue(k,false);
+	while(root.getFather() != null){
+		root = root.getFather();
+	}
     }
-    
-    public void delete(int k){
+
+    public void delete(int k) {
         this.root.deleteValue(k);
     }
 
     public void setHeight(int height) {
         this.height = height;
     }
-    
-    
-    
+
     @Override
     public String toString() {
         return "Btree{" + "order=" + order + '}' + "\n root: " + this.root.toString();
     }
-    
-        
-        
-    
+
 }
