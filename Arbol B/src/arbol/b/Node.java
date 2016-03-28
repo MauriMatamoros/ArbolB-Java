@@ -22,8 +22,13 @@ public class Node {
     public Node() {
     }
 
+    public Node(int level) {
+        this.level = level;
+    }
+
     public Node(Node father) {
         this.father = father;
+        this.level = this.father.getLevel() + 1;
     }
 
     public void addValue(int k) {
@@ -33,25 +38,23 @@ public class Node {
             if (this.keys.size() == 3) {
                 this.promover(k);
             }
-        } else {
-            if(this.keys.size() < 3){
-                if(k < this.keys.get(0)){
-                    this.children.get(0).addValue(k);
-                }else if(k > this.keys.get(1)){
-                    this.children.get(1).addValue(k);
-                }
+        } else if (this.keys.size() < 3) {
+            if (k < this.keys.get(0)) {
+                this.children.get(0).addValue(k);
+            } else if (k > this.keys.get(this.keys.size() - 1)) {
+                this.children.get(1).addValue(k);
             }
         }
     }
 
     public void promover(int k) {
         if (this.father == null) {
-            this.father = new Node();
+            this.father = new Node(1);
             this.keys.add(k);
         }
         int middle = this.keys.get(1);
         this.keys.remove(1);
-        this.Split(middle);                
+        this.Split(middle);
     }
 
     public void deleteValue(int k) {
@@ -59,17 +62,31 @@ public class Node {
     }
 
     public void Split(int k) {
-        Node leftNode = new Node();
-        Node RightNode = new Node();
+        Node leftNode = new Node(this);
+        Node RightNode = new Node(this);
         if (!this.keys.isEmpty()) {
-            leftNode.keys.add(this.keys.get(0));
+            /*leftNode.keys.add(this.keys.get(0));
             this.keys.remove(0);
             this.father.setChild(leftNode);
             RightNode.keys.add(this.keys.get(1));
             this.father.setChild(RightNode);
             this.keys.clear();
-            this.keys.add(k);//making the new root
-        }        
+            this.keys.add(k);  
+             */
+            System.out.println("quien es mi padre");
+            System.out.println(this.father.toString());
+            System.out.println("Donde estoy carajo");
+            System.out.println(this.toString());
+            System.out.println("Quien putas agrego");
+            System.out.println(k);
+            leftNode.keys.add(this.keys.get(0));
+            this.keys.remove(0);
+            this.setChild(leftNode);
+            RightNode.keys.add(this.keys.get(1));
+            this.setChild(RightNode);
+            this.keys.clear();
+            this.keys.add(k);
+        }
     }
 
     public void setChild(Node n) {
@@ -126,7 +143,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node{" + "values=" + this.keys + "\nChildren= " + this.children + '}';
+        return "Node{" + "\nlevel" + this.level + "\nvalues=" + this.keys + "\nChildren= " + this.children + '}';
     }
 
 }
