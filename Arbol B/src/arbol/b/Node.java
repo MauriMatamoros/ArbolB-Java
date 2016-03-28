@@ -33,6 +33,7 @@ public class Node {
     }
 
     public void addValue(int k, boolean promover) {
+        promover = true;
         if (!promover) {
             if (this.children.isEmpty()) {
                 keys.add(k);
@@ -87,11 +88,12 @@ public class Node {
     }
 
     public void Split(int k) {
+
         Node temp = new Node(father);
         for (int i = 2; i > 0; --i) {
             if (keys.get(i - 1) >= k) {
-                temp.addValue(keys.get(i-1),false);
-                keys.remove(keys.size()-1);
+                temp.addValue(keys.get(i - 1), false);
+                keys.remove(keys.size() - 1);
             }
         }
         if (!this.children.isEmpty()) {
@@ -99,12 +101,12 @@ public class Node {
             if (tempchildsize % 2 == 0) {
                 for (int i = tempchildsize - 1; i > (tempchildsize) / 2; --i) {
                     temp.setChild(children.get(i - 1));
-                    children.remove(children.size()-1);
+                    children.remove(children.size() - 1);
                 }
             } else {
                 for (int i = tempchildsize - 1; i > (tempchildsize - 1) / 2; --i) {
                     temp.setChild(children.get(i - 1));
-                    children.remove(children.size()-1);
+                    children.remove(children.size() - 1);
                 }
             }
         }
@@ -162,14 +164,6 @@ public class Node {
 
     public void setLevel(int level) {
         this.level = level;
-    }
-    
-    public void orderChildren(){
-        if (this.children.get(0).getKeys().get(0) >  this.children.get(1).getKeys().get(0) &&
-                this.children.get(0).getKeys().get(0) > this.children.get(2).getKeys().get(0)) {
-            
-            
-        }
     }
 
     @Override

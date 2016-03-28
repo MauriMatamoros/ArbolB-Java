@@ -35,9 +35,11 @@ public class ArbolB {
             } else if (opcion == 2) {
                 int option = operaciones();
                 if (option == 1) {
-                    for (int i = 1; i < 100; i++) {
-                        Arbol.insert(Arbol, i);
-                    }
+                    int value = input.nextInt();
+                    Arbol.insert(Arbol,value);
+                    //for (int i = 1; i < 100; i++) {
+                   //     Arbol.insert(Arbol, i);
+                   // }
                 } else {
 
                 }
