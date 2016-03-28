@@ -65,27 +65,25 @@ public class Node {
         Node leftNode = new Node(this);
         Node RightNode = new Node(this);
         if (!this.keys.isEmpty()) {
-            /*leftNode.keys.add(this.keys.get(0));
+            
+            leftNode.keys.add(this.keys.get(0));
             this.keys.remove(0);
             this.father.setChild(leftNode);
             RightNode.keys.add(this.keys.get(1));
             this.father.setChild(RightNode);
             this.keys.clear();
             this.keys.add(k);  
-             */
-            System.out.println("quien es mi padre");
-            System.out.println(this.father.toString());
-            System.out.println("Donde estoy carajo");
-            System.out.println(this.toString());
-            System.out.println("Quien putas agrego");
-            System.out.println(k);
+            
+
             leftNode.keys.add(this.keys.get(0));
-            this.keys.remove(0);
             this.setChild(leftNode);
             RightNode.keys.add(this.keys.get(1));
             this.setChild(RightNode);
+            this.keys.remove(0);
             this.keys.clear();
             this.keys.add(k);
+            //this.father.keys.add(k);
+
         }
     }
 
